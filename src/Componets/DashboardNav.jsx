@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { FaBasketShopping } from "react-icons/fa6";
+import { FaBasketShopping  } from "react-icons/fa6";
+import { CgProfile } from "react-icons/cg";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { CiLogout } from "react-icons/ci";
@@ -50,6 +51,12 @@ const Routes = [
   },
   {
     id: 6,
+    label: "Profile",
+    icon: <CgProfile size={18}/>,
+    link: "/dashboard/profile",
+  },
+  {
+    id: 8,
     label: "Management",
     icon: <MdOutlineManageAccounts/>,
     link: "/dashboard/management",
