@@ -1,23 +1,78 @@
 import { useForm } from "react-hook-form";
 import { MdDeleteOutline } from "react-icons/md";
 import PageTitle from "../SharedItems/PageTitile";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
 const Utility = () => {
+    const [total , setTotal] = useState()
+    const [utilityCost, setUtilityCost] = useState()
+
     const {
         handleSubmit,
         register
     } = useForm()
-    const handleData =(data)=>{
+    const handleUtilityData =(data)=>{
         const date = data.date
+        const name = data.name
         const cost = parseFloat( data.cost )
-        const utilityCost = { date , cost}
-        console.log(utilityCost);
+        const utilityCost = { date , name ,cost }
+        axios.post('http://localhost:3000/add-utility-cost' , utilityCost)
+        .then(res =>{
+            if(res.data.insertedId){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Daily Cost added Successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                    
+                  }); 
+                  window.location.reload()
+            }
+          
+        })
     }
+    useEffect(()=>{
+            fetch('http://localhost:3000/utility-cost')
+            .then( res => res.json())
+            .then ( data => {
+                setTotal(data.totalCost)
+                setUtilityCost(data.utilityCost)
+            })
+        },[])
+        const handleDelete = (id)=>{
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert the user!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+              }).then((result) => {
+             
+                if(result.isConfirmed){
+                    axios.delete(`http://localhost:3000/utility-cost/${id}`)
+                    .then( res =>{
+                        if(res.data.deletedCount > 0 ){
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Utility cost has been deleted.",
+                                icon: "success"
+                              });
+                         }
+                    window.location.reload()
+                    })
+                }
+    
+            })   
+        }
     return (
         <div className="px-8">
              <PageTitle
                 heading='Utility'
              ></PageTitle>
-            <form className="flex gap-4 flex-col md:flex-row" onSubmit={handleSubmit(handleData)}>
+            <form className="flex gap-4 flex-col md:flex-row" onSubmit={handleSubmit(handleUtilityData)}>
                 <input className="border border-gray-400 p-3 rounded-xl" placeholder="Date" type="date" {...register('date', {required: true})} />
                 <input className="border border-gray-400 p-3 rounded-xl" placeholder="Name of the Cost" type="text" {...register('name', {required: true})} />
                 <input className="border border-gray-400 p-3 rounded-xl" placeholder="Cost" type="text" {...register("cost" , {required: true})} />
@@ -40,25 +95,29 @@ const Utility = () => {
                     </thead>
                     <tbody>
                     {/* row 1 */}
-                    <tr className="font-semibold text-sm md:text-lg">
+                     {
+                        utilityCost?.map((utility) => 
+                        <tr key={utility?._id} className="font-semibold text-sm md:text-lg">
                         
-                        <td>1-1-25</td>
-                        <td>Gas bill</td>
-                        <td>100 tk</td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                           <button>
-                                <MdDeleteOutline size={24}/>
-                           </button>
-                        </td>
+                            <td>{utility?.date}</td>
+                            <td>{utility?.name}</td>
+                            <td>{utility?.cost}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                            <button onClick={()=> handleDelete(utility?._id)}>
+                                    <MdDeleteOutline size={24}/>
+                            </button>
+                            </td>
                        
-                    </tr>        
+                        </tr> 
+                        )
+                     }       
                     </tbody>
                    
                    
                 </table>
-                <h1 className="text-xl font-semibold text-blue-900 mt-8">Total Cost: 100 tk</h1>
+                <h1 className="text-xl font-semibold text-blue-900 mt-8">Total Cost: {total} tk</h1>
             </div>
         </div>
     );

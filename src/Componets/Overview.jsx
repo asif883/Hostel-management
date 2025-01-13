@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 const Overview = () => {
   const [total , setTotal] = useState()
+  const [utilityTotal , setUtilityTotal] = useState()
+
   const dietBreakdownData = {
     labels: ["Asif", "Mamun", "Moku", "Ebadul", "Shobuj", "Hasan", "Milon"],
     datasets: [
@@ -22,6 +24,14 @@ const Overview = () => {
           })
       },[])
 
+  useEffect(()=>{
+          fetch('http://localhost:3000/utility-cost')
+          .then( res => res.json())
+          .then ( data => {
+              setUtilityTotal(data.totalCost)
+          })
+      },[])
+
   
 
   return (
@@ -34,12 +44,12 @@ const Overview = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       <div className="card bg-primary text-white p-4">
           <h3 className="text-lg font-bold">Total Cost</h3>
-          <p className="text-3xl">{total} tk</p>
+          <p className="text-2xl font-semibold">{total} tk</p>
           
         </div>
         <div className="card bg-secondary text-white p-4">
           <h3 className="text-lg font-bold">Utility Cost</h3>
-          <p className="text-3xl">90</p>
+          <p className="text-2xl font-semibold">{utilityTotal} tk</p>
        
         </div>
       
