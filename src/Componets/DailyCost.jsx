@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { MdDeleteOutline } from "react-icons/md";
 import Swal from "sweetalert2";
+import PageTitle from "../SharedItems/PageTitile";
 const DailyCost = () => {
     const [total , setTotal] = useState()
     const [dailyCost, setDailyCost] = useState()
@@ -71,9 +72,9 @@ const DailyCost = () => {
     }
     return (
         <div className="px-8">
-            <div className="my-8">
-                <h1 className="text-3xl font-semibold text-blue-700 ">Daily Cost</h1>
-            </div>
+            <PageTitle
+                heading="Daily Cost"
+            ></PageTitle>
             <form className="flex gap-4 flex-col md:flex-row" onSubmit={handleSubmit(handleData)}>
                 <input className="border border-gray-400 p-3 rounded-xl" placeholder="Date" type="date" {...register('date', {required: true})} />
                 <input className="border border-gray-400 p-3 rounded-xl" placeholder="Cost" type="text" {...register("cost" , {required: true})} />

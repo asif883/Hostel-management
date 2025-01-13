@@ -1,7 +1,11 @@
+import PageTitle from "../SharedItems/PageTitile";
 
 const DailyMeal = () => {
     return (
-        <div className="p-3 md:p-10">
+        <div className="p-3 md:px-10">
+            <PageTitle
+                heading="daily meal"
+            ></PageTitle>
             <div className="overflow-x-auto ">
                             <table className="table">
                                 {/* head */}
@@ -23,7 +27,7 @@ const DailyMeal = () => {
                                     <td>10</td>
                                                                                                         
                                     <td>
-                                      <input className="border-2 rounded-lg border-gray-500 p-2 w-10" type="text" />
+                                      <input className="border rounded-lg border-[#4470CC] p-2 w-10" type="text" />
                                       <input type="submit" value='Add' className="bg-[#4470CC] text-white p-2 rounded-xl ml-1" />
                                     </td>
                                    

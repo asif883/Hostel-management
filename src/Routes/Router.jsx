@@ -7,6 +7,9 @@ import Utility from "../Componets/Utility";
 import DailyMeal from "../Componets/DailyMeal";
 import DepositMoney from "../Componets/DepositMoney";
 import Management from "../Componets/Management";
+import Profile from "../Componets/Profile";
+import Login from "../Pages/Login";
+import Register from "../Pages/Register";
 
 const router = createBrowserRouter([
     {
@@ -43,7 +46,21 @@ const router = createBrowserRouter([
                 path: '/dashboard/management',
                 element: <Management/>
             }
+            ,
+            {
+                path: '/dashboard/profile',
+                element: <Profile/>
+            }
         ]
+    },
+    {
+        path: '/login',
+        element: <Login/>
+    }
+    ,
+    {
+        path: '/register',
+        element: <Register/>
     }
 ])
 
