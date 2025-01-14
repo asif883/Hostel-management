@@ -9,6 +9,7 @@ import { LuUsersRound } from "react-icons/lu";
 import { PiHandDepositBold } from "react-icons/pi";
 import { BsMotherboard } from "react-icons/bs";
 import '../CSS/dashNav.css';
+import useAuth from "../Hooks/useAuth";
 
 
 const Routes = [
@@ -64,7 +65,11 @@ const Routes = [
 ];
 
 const DashboardNav = () => {
-  
+  const { logout }= useAuth()
+
+  const handleLogout =()=>{
+    logout()
+  }
   return (
     <div className="p-4">
       <div className="text-center border-b border-gray-300 pb-4">
@@ -83,7 +88,7 @@ const DashboardNav = () => {
             {route.label}
           </NavLink>
         ))}
-         <button className="flex items-center gap-2 text-[#444546] font-semibold border border-gray-300 rounded-xl px-5 py-2 w-full">
+         <button onClick={()=> handleLogout()} className="flex items-center gap-2 text-[#444546] font-semibold border border-gray-300 rounded-xl px-5 py-2 w-full">
           <CiLogout/>  Logout
          </button>
       </div>

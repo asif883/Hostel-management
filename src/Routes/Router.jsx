@@ -10,11 +10,12 @@ import Management from "../Componets/Management";
 import Profile from "../Componets/Profile";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
         path:'/',
-        element: <Dashboard/>,
+        element: <PrivateRoute><Dashboard/></PrivateRoute>,
         children:[
             {
                 path:'/dashboard/overview',

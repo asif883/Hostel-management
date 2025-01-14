@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-// import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
+import useAuth from "../Hooks/useAuth";
 
 
 const Login = () => {
-    // const {login} = useAuth()
+    const {login} = useAuth()
     const navigate = useNavigate()
   
     const {
@@ -19,17 +19,17 @@ const Login = () => {
        const email = data.email
        const password = data.password
 
-    //    login( email , password)
-    //    .then(res =>{
-    //     console.log(res);
-    //     Swal.fire({
-    //         title: 'Success!',
-    //         text: 'Login Successful',
-    //         icon: 'success',
-    //         confirmButtonText: 'Ok'
-    //       });
-    //       navigate('/dashboard/overview');
-    // })
+       login( email , password)
+       .then(res =>{
+        console.log(res);
+        Swal.fire({
+            title: 'Success!',
+            text: 'Login Successful',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          });
+          navigate('/dashboard/overview');
+    })
     }
     return (
         <div className="max-w-3xl mx-auto">

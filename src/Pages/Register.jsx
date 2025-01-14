@@ -1,10 +1,14 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-// import useAuth from "../Hooks/useAuth";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
+import axios from "axios";
+import Swal from "sweetalert2";
+
 
 
 const Register = () => {
-    // const {CreateUser} = useAuth()
+    const { CreateUser } = useAuth()
+    const navigate = useNavigate()
     const {
         handleSubmit,
         register, 
@@ -16,7 +20,23 @@ const Register = () => {
         const password = data.password 
         const name = data.name 
         const userData  ={ email , password, name }
-        console.log(userData);
+
+        CreateUser(email , password)
+
+        axios.post('http://localhost:3000/add-user', userData)
+        .then(res =>{
+                 if(res.data.insertedId){
+                    Swal.fire({
+                     title: 'Success!',
+                     text: 'Your Registration Successful',
+                     icon: 'success',
+                     confirmButtonText: 'Ok'
+                            
+                    }); 
+                  navigate('/dashboard/overview')
+                 }
+                  
+                })
 
     }
     return (
