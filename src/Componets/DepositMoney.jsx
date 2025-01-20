@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
 import PageTitle from "../SharedItems/PageTitile";
+import useMembersData from "../Hooks/useMembersData";
 
 
 const DepositMoney = () => {
+    const members = useMembersData()
+
     const {
         handleSubmit,
         register,
@@ -26,20 +29,58 @@ const DepositMoney = () => {
                     <option value="" disabled selected>
                         Choose a Name
                     </option>
-                    <option value="name1">Option 1</option>
-                    <option value="name2">Option 2</option>
-                    <option value="name3">Option 3</option>
+                    {
+                        members?.map((member) =>
+                            <option key={member?._id} value={member?.name}>{member?.name}</option>
+                        )
+                    }
+                   
                  </select>
                     {errors.option && (
                     <span className="text-red-500 text-sm">{errors.option.message}</span>
                     )}
+                    <input className="border border-gray-400 p-3 rounded-xl" placeholder="Date" type="date" {...register('date', {required: true})} />
                     <input className="border border-gray-400 p-3 rounded-xl" placeholder="Amount" type="text" {...register("amount" , {required: true})} />
                     {errors.amount && (
                     <span className="text-red-500 text-sm">{errors.amount.message}</span>
                     )}
                     <input type="submit" value='Add'  className=" bg-[#4470CC] text-white p-3 rounded-xl"/>
-
                 </form>
+                
+                      <div className="overflow-x-auto mt-10">
+                            <table className="table">
+                                {/* head */}
+                                <thead>
+                                  <tr className="bg-gray-100 rounded-md text-lg text-gray-800">
+                                        
+                                      <th>Date</th>
+                                      <th>Name</th>
+                                       <th></th>
+                                       <th></th>
+                                       <th>Amount</th>
+                                       
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {/* row 1 */}
+                                     {/* {
+                                        utilityCost?.map((utility) => 
+                                        <tr key={utility?._id} className="font-semibold text-sm md:text-lg">
+                                        
+                                            <td>{utility?.date}</td>
+                                            <td>{utility?.name}</td>
+                                            <td>{utility?.cost}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr> 
+                                        )
+                                     }        */}
+                                </tbody>
+                                   
+                                   
+                            </table>
+                                
+                        </div>
         </div>
     );
 };
