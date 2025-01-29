@@ -4,7 +4,6 @@ import Overview from "../Componets/Overview";
 import AllMember from "../Componets/AllMember";
 import DailyCost from "../Componets/DailyCost";
 import Utility from "../Componets/Utility";
-import DailyMeal from "../Componets/DailyMeal";
 import DepositMoney from "../Componets/DepositMoney";
 import Management from "../Componets/Management";
 import Profile from "../Componets/Profile";

@@ -1,10 +1,15 @@
 import { useForm } from "react-hook-form";
 import PageTitle from "../SharedItems/PageTitile";
 import useMembersData from "../Hooks/useMembersData";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
+import { MdDeleteOutline } from "react-icons/md";
 
 
 const DepositMoney = () => {
     const members = useMembersData()
+    const [allMoney , setAllMoney] = useState([])
 
     const {
         handleSubmit,
@@ -13,8 +18,58 @@ const DepositMoney = () => {
     } =useForm()
     const handleDeposit = (data)=>{
         const name = data.name 
+        const date = data.date 
         const amount = parseFloat(data.amount) 
-        console.log(name , amount);
+        const depositMoney = {name , date,amount}
+
+        axios.post('http://localhost:3000/add-money' , depositMoney)
+        .then(res =>{
+            if(res.data.insertedId){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Daily Cost added Successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                    
+                  }); 
+                  window.location.reload()
+            }
+          
+        })    
+    }
+
+    useEffect(()=>{
+        fetch('http://localhost:3000/deposit-money')
+        .then(res => res.json())
+        .then(data => setAllMoney(data))
+    }, [])
+
+    const handleDelete = (id)=>{
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+         
+            if(result.isConfirmed){
+                axios.delete(`http://localhost:3000/money/${id}`)
+                .then( res =>{
+                    if(res.data.deletedCount > 0 ){
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Deposit Money has been deleted.",
+                            icon: "success"
+                          });
+                     }
+                window.location.reload()
+                })
+            }
+
+        })   
     }
     return (
         <div className="px-8">
@@ -56,31 +111,36 @@ const DepositMoney = () => {
                                       <th>Date</th>
                                       <th>Name</th>
                                        <th></th>
-                                       <th></th>
                                        <th>Amount</th>
+                                       <th>Delete</th>
                                        
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {/* row 1 */}
-                                     {/* {
-                                        utilityCost?.map((utility) => 
-                                        <tr key={utility?._id} className="font-semibold text-sm md:text-lg">
+                                     {
+                                        allMoney?.map((money) => 
+                                        <tr key={money?._id} className="font-semibold text-sm md:text-lg">
                                         
-                                            <td>{utility?.date}</td>
-                                            <td>{utility?.name}</td>
-                                            <td>{utility?.cost}</td>
+                                            <td>{money?.date}</td>
+                                            <td>{money?.name}</td>
                                             <td></td>
-                                            <td></td>
+                                            <td>{money?.amount} tk</td>
+                                            <td>
+                                                <button onClick={()=> handleDelete(money?._id)}>
+                                                    <MdDeleteOutline size={24}/>
+                                                </button>
+                                            </td>
+                                            
                                         </tr> 
                                         )
-                                     }        */}
+                                     }       
                                 </tbody>
                                    
                                    
                             </table>
                                 
-                        </div>
+               </div>
         </div>
     );
 };

@@ -46,7 +46,7 @@ const DailyCost = () => {
     const handleDelete = (id)=>{
         Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert the user!",
+            text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -70,16 +70,47 @@ const DailyCost = () => {
 
         })   
     }
+    const handleDeleteAll = ()=>{
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+         
+            if(result.isConfirmed){
+                axios.delete(`http://localhost:3000/delete-all-cost`)
+                .then( res =>{
+                    if(res.data.deletedCount > 0 ){
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "All cost has been deleted.",
+                            icon: "success"
+                          });
+                     }
+                  setDailyCost([])
+                  setTotal('')
+                })
+            }
+
+        })   
+    }
     return (
         <div className="px-8">
             <PageTitle
                 heading="Daily Cost"
             ></PageTitle>
-            <form className="flex gap-4 flex-col md:flex-row" onSubmit={handleSubmit(handleData)}>
+            <div >
+              <form className="flex gap-4 flex-col md:flex-row" onSubmit={handleSubmit(handleData)}>
                 <input className="border border-gray-400 p-3 rounded-xl" placeholder="Date" type="date" {...register('date', {required: true})} />
                 <input className="border border-gray-400 p-3 rounded-xl" placeholder="Cost" type="text" {...register("cost" , {required: true})} />
                 <input type="submit" value='Add'  className=" bg-[#4470CC] text-white p-3 rounded-xl"/>
-            </form>
+             </form>
+              
+            </div>
 
             <div className="overflow-x-auto mt-10">
                 <table className="table">
@@ -120,6 +151,9 @@ const DailyCost = () => {
                    
                 </table>
                 <h1 className="text-xl font-semibold text-blue-900 mt-8">Total Cost: {total} tk</h1>
+                <div>
+                    <button onClick={handleDeleteAll} className="btn btn-error text-white rounded-md mt-6">Delete All</button>
+               </div>
             </div>
         </div>
     );
