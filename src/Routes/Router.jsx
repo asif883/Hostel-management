@@ -11,6 +11,7 @@ import Profile from "../Componets/Profile";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import PrivateRoute from "./PrivateRoute";
+import MealTracker from "../Componets/meal";
 
 const router = createBrowserRouter([
     {
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/daily-meal',
-                element: <DailyMeal/>
+                element: <MealTracker/>
             }
             ,
             {

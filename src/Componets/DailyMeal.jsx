@@ -70,8 +70,8 @@ const DailyMeal = () => {
                                     
                                     <th>Name</th>
                                     <th></th>
-                                    <th>Total Meal</th>
-                                    <th>Add Meal</th>
+                                    <th>Meal</th>
+                                    <th>Date</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -79,12 +79,11 @@ const DailyMeal = () => {
                                 {
                                     meals?.map((meal) =>
                                         <tr key={meal?._id} className="font-semibold text-sm md:text-lg">
-                                   
                                     <td>{meal?.name}</td>
                                     <td></td>
                                     <td>{meal.meal}</td>
                                     <td>
-                                     
+                                      {meal?.date}
                                     </td>
                                    
                                  </tr>   
