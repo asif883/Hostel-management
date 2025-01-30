@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FaBasketShopping  } from "react-icons/fa6";
-import { CgProfile } from "react-icons/cg";
+// import { CgProfile } from "react-icons/cg";
 import { IoFastFoodOutline } from "react-icons/io5";
-import { MdOutlineManageAccounts } from "react-icons/md";
+// import { MdOutlineManageAccounts } from "react-icons/md";
 import { CiLogout } from "react-icons/ci";
 import { LuUsersRound } from "react-icons/lu";
 import { PiHandDepositBold } from "react-icons/pi";
@@ -50,18 +50,18 @@ const Routes = [
     icon: <PiHandDepositBold/>,
     link: "/dashboard/deposit-money",
   },
-  {
-    id: 6,
-    label: "Profile",
-    icon: <CgProfile size={18}/>,
-    link: "/dashboard/profile",
-  },
-  {
-    id: 8,
-    label: "Management",
-    icon: <MdOutlineManageAccounts/>,
-    link: "/dashboard/management",
-  },
+  // {
+  //   id: 6,
+  //   label: "Profile",
+  //   icon: <CgProfile size={18}/>,
+  //   link: "/dashboard/profile",
+  // },
+  // {
+  //   id: 8,
+  //   label: "Management",
+  //   icon: <MdOutlineManageAccounts/>,
+  //   link: "/dashboard/management",
+  // },
 ];
 
 const DashboardNav = () => {

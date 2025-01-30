@@ -1,17 +1,32 @@
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { useEffect, useState } from "react";
+import useMembersData from "../Hooks/useMembersData";
 
 const Overview = () => {
+  const members = useMembersData()
   const [total , setTotal] = useState()
   const [utilityTotal , setUtilityTotal] = useState()
+  const [depositMoney , setDepositMoney] = useState([])
+  
+  useEffect(()=>{
+    fetch('http://localhost:3000/deposit-money')
+    .then(res => res.json())
+    .then(data => setDepositMoney(data))
+  }, [])
 
-  const dietBreakdownData = {
-    labels: ["Asif", "Mamun", "Moku", "Ebadul", "Shobuj", "Hasan", "Milon"],
+  const getColor = (amount) => {
+    if (amount >= 3500) return "#4CAF50"; // Green
+    if (amount <= 2000) return "#FF0000"; // Red
+    return "#FFD700"; // Yellow
+  };
+
+  const dietBreakdownData = { 
+    labels: members.map(item => item?.name),
     datasets: [
       {
-        data: [4500, 3000, 3500,4000,2500,2000,2800],
-        backgroundColor: ["#4CAF50", "#FF7043", "#42A5F5"],
+        data: depositMoney.map(item => item?.amount),
+        backgroundColor: depositMoney.map(item => getColor(item.amount)),
       },
     ],
   };
