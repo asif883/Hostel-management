@@ -17,7 +17,7 @@ const Utility = () => {
         const name = data.name
         const cost = parseFloat( data.cost )
         const utilityCost = { date , name ,cost }
-        axios.post('http://localhost:3000/add-utility-cost' , utilityCost)
+        axios.post('https://hostel-management-server-ten.vercel.app/add-utility-cost' , utilityCost)
         .then(res =>{
             if(res.data.insertedId){
                 Swal.fire({
@@ -33,7 +33,7 @@ const Utility = () => {
         })
     }
     useEffect(()=>{
-            fetch('http://localhost:3000/utility-cost')
+            fetch('https://hostel-management-server-ten.vercel.app/utility-cost')
             .then( res => res.json())
             .then ( data => {
                 setTotal(data.totalCost)
@@ -52,7 +52,7 @@ const Utility = () => {
               }).then((result) => {
              
                 if(result.isConfirmed){
-                    axios.delete(`http://localhost:3000/utility-cost/${id}`)
+                    axios.delete(`https://hostel-management-server-ten.vercel.app/utility-cost/${id}`)
                     .then( res =>{
                         if(res.data.deletedCount > 0 ){
                             Swal.fire({

@@ -23,7 +23,7 @@ const Register = () => {
 
         CreateUser(email , password)
 
-        axios.post('http://localhost:3000/add-user', userData)
+        axios.post('https://hostel-management-server-ten.vercel.app/add-user', userData)
         .then(res =>{
                  if(res.data.insertedId){
                     Swal.fire({

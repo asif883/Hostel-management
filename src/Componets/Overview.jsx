@@ -1,16 +1,14 @@
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { useEffect, useState } from "react";
-import useMembersData from "../Hooks/useMembersData";
 
 const Overview = () => {
-  const members = useMembersData()
   const [total , setTotal] = useState()
   const [utilityTotal , setUtilityTotal] = useState()
   const [depositMoney , setDepositMoney] = useState([])
   
   useEffect(()=>{
-    fetch('http://localhost:3000/deposit-money')
+    fetch('https://hostel-management-server-ten.vercel.app/deposit-money')
     .then(res => res.json())
     .then(data => setDepositMoney(data))
   }, [])
@@ -22,7 +20,7 @@ const Overview = () => {
   };
 
   const dietBreakdownData = { 
-    labels: members.map(item => item?.name),
+    labels: depositMoney.map(item => item?.name),
     datasets: [
       {
         data: depositMoney.map(item => item?.amount),
@@ -32,7 +30,7 @@ const Overview = () => {
   };
    
   useEffect(()=>{
-          fetch('http://localhost:3000/daily-cost')
+          fetch('https://hostel-management-server-ten.vercel.app/daily-cost')
           .then( res => res.json())
           .then ( data => {
               setTotal(data.totalCost)
@@ -40,7 +38,7 @@ const Overview = () => {
       },[])
 
   useEffect(()=>{
-          fetch('http://localhost:3000/utility-cost')
+          fetch('https://hostel-management-server-ten.vercel.app/utility-cost')
           .then( res => res.json())
           .then ( data => {
               setUtilityTotal(data.totalCost)

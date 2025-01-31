@@ -22,7 +22,7 @@ const DepositMoney = () => {
         const amount = parseFloat(data.amount) 
         const depositMoney = {name , date,amount}
 
-        axios.post('http://localhost:3000/add-money' , depositMoney)
+        axios.post('https://hostel-management-server-ten.vercel.app/add-money' , depositMoney)
         .then(res =>{
             if(res.data.insertedId){
                 Swal.fire({
@@ -39,7 +39,7 @@ const DepositMoney = () => {
     }
 
     useEffect(()=>{
-        fetch('http://localhost:3000/deposit-money')
+        fetch('https://hostel-management-server-ten.vercel.app/deposit-money')
         .then(res => res.json())
         .then(data => setAllMoney(data))
     }, [])
@@ -56,7 +56,7 @@ const DepositMoney = () => {
           }).then((result) => {
          
             if(result.isConfirmed){
-                axios.delete(`http://localhost:3000/money/${id}`)
+                axios.delete(`https://hostel-management-server-ten.vercel.app/money/${id}`)
                 .then( res =>{
                     if(res.data.deletedCount > 0 ){
                         Swal.fire({

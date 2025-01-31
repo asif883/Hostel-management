@@ -19,7 +19,7 @@ const AllMember = () => {
           }).then((result) => {
          
             if(result.isConfirmed){
-                axios.delete(`http://localhost:3000/delete-user/${id}`)
+                axios.delete(`https://hostel-management-server-ten.vercel.app/delete-user/${id}`)
                 .then( res =>{
                     if(res.data.deletedCount > 0 ){
                         Swal.fire({
@@ -57,7 +57,7 @@ const AllMember = () => {
                                 {/* row 1 */}
                                 {
                                     members?.map((member) => 
-                                        <tr key={member?._id} className="font-semibold text-sm md:text-lg border-b-2 border-blue-100 pb-1">
+                                        <tr key={member?._id} className="font-semibold  border-b-2 border-blue-100 pb-1">
                                     
                                     <td>{member?.name}</td>
                                     <td></td>

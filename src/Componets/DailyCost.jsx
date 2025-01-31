@@ -19,7 +19,7 @@ const DailyCost = () => {
         const cost = parseFloat( data.cost )
         const dailyCost = { date , cost}
         
-        axios.post('http://localhost:3000/add-daily-cost' , dailyCost)
+        axios.post('https://hostel-management-server-ten.vercel.app/add-daily-cost' , dailyCost)
         .then(res =>{
             if(res.data.insertedId){
                 Swal.fire({
@@ -35,7 +35,7 @@ const DailyCost = () => {
         })
     }
     useEffect(()=>{
-        fetch('http://localhost:3000/daily-cost')
+        fetch('https://hostel-management-server-ten.vercel.app/daily-cost')
         .then( res => res.json())
         .then ( data => {
             setTotal(data.totalCost)
@@ -55,7 +55,7 @@ const DailyCost = () => {
           }).then((result) => {
          
             if(result.isConfirmed){
-                axios.delete(`http://localhost:3000/daily-cost/${id}`)
+                axios.delete(`https://hostel-management-server-ten.vercel.app/daily-cost/${id}`)
                 .then( res =>{
                     if(res.data.deletedCount > 0 ){
                         Swal.fire({
@@ -82,7 +82,7 @@ const DailyCost = () => {
           }).then((result) => {
          
             if(result.isConfirmed){
-                axios.delete(`http://localhost:3000/delete-all-cost`)
+                axios.delete(`https://hostel-management-server-ten.vercel.app/delete-all-cost`)
                 .then( res =>{
                     if(res.data.deletedCount > 0 ){
                         Swal.fire({

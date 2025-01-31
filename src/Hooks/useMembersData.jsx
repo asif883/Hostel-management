@@ -4,7 +4,7 @@ const useMembersData = () => {
     const [ members , setMembers ] = useState([])
 
     useEffect(()=>{
-        fetch('http://localhost:3000/users')
+        fetch('https://hostel-management-server-ten.vercel.app/users')
         .then( res => res.json())
         .then( data => setMembers(data))
     }, [])

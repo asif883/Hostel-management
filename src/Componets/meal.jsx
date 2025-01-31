@@ -1,31 +1,33 @@
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import useMembersData from "../Hooks/useMembersData";
 
-const API_URL = "http://localhost:3000"; 
+
+const API_URL = "https://hostel-management-server-ten.vercel.app"; 
+
+const members =['Asif', 'Mamun', 'Ebadul', 'Moku', 'Shobuj', 'Milon', 'Hasan'];
 
 const MealTracker = () => {
   const [meals, setMeals] = useState([]);
    
-  const members = useMembersData()
+  
 
   // Fetch Data from Backend
   const fetchMeals = async () => {
     try {
-        const response = await fetch("http://localhost:3000/daily-meal");
+        const response = await fetch("https://hostel-management-server-ten.vercel.app/daily-meal");
         const data = await response.json();
         
         
         
         if (!Array.isArray(data.meals)) {
            
-            setMeals([]); // Set empty array to avoid error
+            setMeals([]); 
         } else {
             setMeals(data.meals);
         }
     } catch (error) {
         console.error("Error fetching meals:", error);
-        setMeals([]); // Prevent crash
+        setMeals([]);
     }
 };
 
@@ -120,10 +122,10 @@ const MealTracker = () => {
       <div className="overflow-x-auto">
         <table className="table w-full border">
           <thead>
-            <tr>
+            <tr className="text-sm">
               <th>Date</th>
               {members.map((member, index) => (
-                <th key={index}>{member?.name}</th>
+                <th key={index}>{member}</th>
               ))}
               <th>Total Meals</th>
               <th>Actions</th>
@@ -131,7 +133,7 @@ const MealTracker = () => {
           </thead>
           <tbody>
             {meals?.map((day, index) => (
-              <tr key={index} className="border">
+              <tr  key={index} className="border text-sm">
                 <td className="p-2">{day.date}</td>
                 {day.meals.map((meal, memberIndex) => (
                   <td key={memberIndex} className="p-2">
