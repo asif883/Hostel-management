@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute";
 import MealTracker from "../Componets/meal";
 
 import { createHashRouter } from "react-router-dom"; 
+import Update from "../Componets/Update";
 const router = createHashRouter([
     {
         path: '/',
@@ -24,7 +25,8 @@ const router = createHashRouter([
             { path: '/dashboard/daily-meal', element: <MealTracker/> },
             { path: '/dashboard/deposit-money', element: <DepositMoney/> },
             { path: '/dashboard/management', element: <Management/> },
-            { path: '/dashboard/profile', element: <Profile/> }
+            { path: '/dashboard/profile', element: <Profile/> },
+            { path: '/dashboard/update/:id', element: <Update/> }
         ]
     },
     { path: '/login', element: <Login/> },

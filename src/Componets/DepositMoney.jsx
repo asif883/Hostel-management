@@ -5,6 +5,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
+import { GrDocumentUpdate } from "react-icons/gr";
+import { Link } from "react-router-dom";
 
 
 const DepositMoney = () => {
@@ -113,6 +115,7 @@ const DepositMoney = () => {
                                        <th></th>
                                        <th>Amount</th>
                                        <th>Delete</th>
+                                       <th>Update</th>
                                        
                                     </tr>
                                     </thead>
@@ -130,6 +133,11 @@ const DepositMoney = () => {
                                                 <button onClick={()=> handleDelete(money?._id)}>
                                                     <MdDeleteOutline size={24}/>
                                                 </button>
+                                            </td>
+                                            <td>
+                                            <Link to={`/dashboard/update/${money?._id}`}>
+                                               <GrDocumentUpdate/>
+                                            </Link>
                                             </td>
                                             
                                         </tr> 
