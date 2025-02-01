@@ -18,8 +18,9 @@ const Register = () => {
     const handleRegister = (data)=>{
         const email = data.email
         const password = data.password 
-        const name = data.name 
-        const userData  ={ email , password, name }
+        const name = data.name
+        const role = "member"
+        const userData  ={ email , password, name, role}
 
         CreateUser(email , password)
 
