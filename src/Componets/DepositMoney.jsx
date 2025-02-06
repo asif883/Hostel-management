@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import Loading from "./Loading";
 
 
 const DepositMoney = () => {
     const members = useMembersData()
+    const [loading , setLoading] = useState(true)
     const [allMoney , setAllMoney] = useState([])
 
     const {
@@ -43,7 +45,10 @@ const DepositMoney = () => {
     useEffect(()=>{
         fetch('https://hostel-management-server-ten.vercel.app/deposit-money')
         .then(res => res.json())
-        .then(data => setAllMoney(data))
+        .then(data => {
+            setAllMoney(data)
+            setLoading(false)
+        })
     }, [])
 
     const handleDelete = (id)=>{
@@ -104,51 +109,55 @@ const DepositMoney = () => {
                     <input type="submit" value='Add'  className=" bg-[#4470CC] text-white p-3 rounded-xl"/>
                 </form>
                 
-                      <div className="overflow-x-auto mt-10">
-                            <table className="table">
-                                {/* head */}
-                                <thead>
-                                  <tr className="bg-gray-100 rounded-md text-lg text-gray-800">
-                                        
-                                      <th>Date</th>
-                                      <th>Name</th>
-                                       <th></th>
-                                       <th>Amount</th>
-                                       <th>Delete</th>
-                                       <th>Update</th>
-                                       
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {/* row 1 */}
-                                     {
-                                        allMoney?.map((money) => 
-                                        <tr key={money?._id} className="font-semibold text-sm md:text-lg">
-                                        
-                                            <td>{money?.date}</td>
-                                            <td>{money?.name}</td>
-                                            <td></td>
-                                            <td>{money?.amount} tk</td>
-                                            <td>
-                                                <button onClick={()=> handleDelete(money?._id)}>
-                                                    <MdDeleteOutline size={24}/>
-                                                </button>
-                                            </td>
-                                            <td>
-                                            <Link to={`/dashboard/update/${money?._id}`}>
-                                               <GrDocumentUpdate/>
-                                            </Link>
-                                            </td>
-                                            
-                                        </tr> 
-                                        )
-                                     }       
-                                </tbody>
-                                   
-                                   
-                            </table>
+                 {
+                    loading ? <Loading/>
+                    :
+                    <div className="overflow-x-auto mt-10">
+                    <table className="table">
+                        {/* head */}
+                        <thead>
+                          <tr className="bg-gray-100 rounded-md text-lg text-gray-800">
                                 
-               </div>
+                              <th>Date</th>
+                              <th>Name</th>
+                               <th></th>
+                               <th>Amount</th>
+                               <th>Delete</th>
+                               <th>Update</th>
+                               
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {/* row 1 */}
+                             {
+                                allMoney?.map((money) => 
+                                <tr key={money?._id} className="font-semibold text-sm md:text-lg">
+                                
+                                    <td>{money?.date}</td>
+                                    <td>{money?.name}</td>
+                                    <td></td>
+                                    <td>{money?.amount} tk</td>
+                                    <td>
+                                        <button onClick={()=> handleDelete(money?._id)}>
+                                            <MdDeleteOutline size={24}/>
+                                        </button>
+                                    </td>
+                                    <td>
+                                    <Link to={`/dashboard/update/${money?._id}`}>
+                                       <GrDocumentUpdate/>
+                                    </Link>
+                                    </td>
+                                    
+                                </tr> 
+                                )
+                             }       
+                        </tbody>
+                           
+                           
+                    </table>
+                        
+                    </div>
+                 }
         </div>
     );
 };

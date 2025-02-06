@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import Loading from "./Loading";
 
 
 const API_URL = "https://hostel-management-server-ten.vercel.app"; 
@@ -7,6 +8,7 @@ const API_URL = "https://hostel-management-server-ten.vercel.app";
 const members =['Asif', 'Mamun', 'Ebadul', 'Moku', 'Shobuj', 'Milon', 'Hasan'];
 
 const MealTracker = () => {
+  const [loading , setLoading] = useState(true)
   const [meals, setMeals] = useState([]);
    
   
@@ -23,7 +25,8 @@ const MealTracker = () => {
            
             setMeals([]); 
         } else {
-            setMeals(data.meals);
+            setMeals(data.meals)
+            setLoading(false)
         }
     } catch (error) {
         console.error("Error fetching meals:", error);
@@ -119,7 +122,10 @@ const MealTracker = () => {
         </button>
       </div>
 
-      <div className="overflow-x-auto">
+      {
+        loading ? <Loading/>
+        :
+        <div className="overflow-x-auto">
         <table className="table w-full border">
           <thead>
             <tr className="text-sm">
@@ -158,8 +164,25 @@ const MealTracker = () => {
               </tr>
             ))}
           </tbody>
+          {/* Calculate and display total meals for each member */}
+          <tfoot>
+            <tr className="font-bold text-sm text-gray-800">
+              <td className="p-2">Total</td>
+              {members.map((_, memberIndex) => (
+                <td key={memberIndex} className="p-2">
+                  {meals.reduce((sum, day) => sum + (day.meals[memberIndex] || 0), 0).toFixed(1)}
+                </td>
+              ))}
+              <td className="p-2">
+                {meals.reduce((total, day) => total + day.meals.reduce((sum, meal) => sum + meal, 0), 0).toFixed(1)}
+              </td>
+              <td></td>
+            </tr>
+          </tfoot>
+
         </table>
       </div>
+      }
     </div>
   );
 };

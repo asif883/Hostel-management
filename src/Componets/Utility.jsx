@@ -4,8 +4,10 @@ import PageTitle from "../SharedItems/PageTitile";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
+import Loading from "./Loading";
 const Utility = () => {
     const [total , setTotal] = useState()
+    const [loading , setLoading] = useState(true)
     const [utilityCost, setUtilityCost] = useState()
 
     const {
@@ -38,6 +40,7 @@ const Utility = () => {
             .then ( data => {
                 setTotal(data.totalCost)
                 setUtilityCost(data.utilityCost)
+                setLoading(false)
             })
         },[])
         const handleDelete = (id)=>{
@@ -79,7 +82,10 @@ const Utility = () => {
                 <input type="submit" value='Add'  className=" bg-[#4470CC] text-white p-3 rounded-xl"/>
             </form>
 
-            <div className="overflow-x-auto mt-10">
+            {
+                loading ? <Loading/>
+                :
+                <div className="overflow-x-auto mt-10">
                 <table className="table">
                     {/* head */}
                     <thead>
@@ -118,7 +124,8 @@ const Utility = () => {
                    
                 </table>
                 <h1 className="text-xl font-semibold text-blue-900 mt-8">Total Cost: {total} tk</h1>
-            </div>
+                </div>
+            }
         </div>
     );
 };

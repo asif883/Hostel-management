@@ -5,9 +5,11 @@ import { useForm } from "react-hook-form";
 import { MdDeleteOutline } from "react-icons/md";
 import Swal from "sweetalert2";
 import PageTitle from "../SharedItems/PageTitile";
+import Loading from "./Loading";
 const DailyCost = () => {
     const [total , setTotal] = useState()
     const [dailyCost, setDailyCost] = useState()
+    const [loading , setLoading] = useState(true)
     
     const {
         handleSubmit,
@@ -40,6 +42,7 @@ const DailyCost = () => {
         .then ( data => {
             setTotal(data.totalCost)
             setDailyCost(data.dailyCost)
+            setLoading(false)
         })
     },[])
 
@@ -112,7 +115,12 @@ const DailyCost = () => {
               
             </div>
 
-            <div className="overflow-x-auto mt-10">
+            {
+                loading ?
+                <>
+                    <Loading/>
+                </> : 
+              <div className="overflow-x-auto mt-10">
                 <table className="table">
                     {/* head */}
                     <thead>
@@ -155,6 +163,7 @@ const DailyCost = () => {
                     <button onClick={handleDeleteAll} className="btn btn-error text-white rounded-md mt-6">Delete All</button>
                </div>
             </div>
+            }
         </div>
     );
 };

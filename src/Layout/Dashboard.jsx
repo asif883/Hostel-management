@@ -1,11 +1,29 @@
 import { Outlet } from "react-router-dom";
 import DashboardNav from "../Componets/DashboardNav";
 import { RiMenu2Line } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import useAuth from "../Hooks/useAuth";
+import Loading from "../Componets/Loading";
 
 
 const Dashboard = () => {
+    const {user} = useAuth()
+    const [loading , setLoading] = useState(true)
+
+    useEffect(()=>{
+        fetch(`https://hostel-management-server-ten.vercel.app/users/${user?.email}`)
+        .then( res => res.json())
+        .then( data =>{
+            setLoading(false)
+        })
+    },[user])
     return (
         <div>
+           {
+             loading ? 
+             <><Loading/></>
+             :
+             <>
             <div className="drawer lg:drawer-open">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content">
@@ -22,6 +40,8 @@ const Dashboard = () => {
                     </ul>
                 </div>
              </div>
+             </>
+           }
         </div>
     );
 };

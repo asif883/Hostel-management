@@ -4,13 +4,17 @@ import { useEffect, useState } from "react";
 
 const Overview = () => {
   const [total , setTotal] = useState()
+  const [loading , setLoading] = useState(true)
   const [utilityTotal , setUtilityTotal] = useState()
   const [depositMoney , setDepositMoney] = useState([])
   
   useEffect(()=>{
     fetch('https://hostel-management-server-ten.vercel.app/deposit-money')
     .then(res => res.json())
-    .then(data => setDepositMoney(data))
+    .then(data => {
+      setDepositMoney(data)
+      setLoading(false)
+    })
   }, [])
 
   const getColor = (amount) => {
@@ -34,6 +38,7 @@ const Overview = () => {
           .then( res => res.json())
           .then ( data => {
               setTotal(data.totalCost)
+              setLoading(false)
           })
       },[])
 
@@ -42,6 +47,7 @@ const Overview = () => {
           .then( res => res.json())
           .then ( data => {
               setUtilityTotal(data.totalCost)
+              setLoading(false)
           })
       },[])
 
@@ -57,12 +63,18 @@ const Overview = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       <div className="card bg-primary text-white p-4">
           <h3 className="text-lg font-bold">Total Cost</h3>
-          <p className="text-2xl font-semibold">{total} tk</p>
+          <p className="text-2xl font-semibold"> 
+            {
+              loading ? <><span className="loading loading-dots loading-md"></span></> : <> {total} tk</>
+            }
+            </p>
           
         </div>
         <div className="card bg-secondary text-white p-4">
           <h3 className="text-lg font-bold">Utility Cost</h3>
-          <p className="text-2xl font-semibold">{utilityTotal} tk</p>
+          <p className="text-2xl font-semibold">{
+              loading ? <><span className="loading loading-dots loading-md"></span></> : <> {utilityTotal} tk</>
+            }</p>
        
         </div>
       
@@ -76,12 +88,16 @@ const Overview = () => {
 
       {/* Charts Section */}
       <div className="mb-6 max-w-4xl">
-        <div>
-          <h3 className="font-bold mb-2 text-center sm:text-left">
-           Deposit Money 
-          </h3>
-          <Bar data={dietBreakdownData} />
-        </div>
+        {
+          loading ? <div className="flex items-start justify-center"><span className="loading loading-bars loading-lg"></span></div>
+          : 
+          <div>
+            <h3 className="font-bold mb-2 text-center sm:text-left">
+            Deposit Money 
+            </h3>
+            <Bar data={dietBreakdownData} />
+          </div>
+        }
       </div>
     </div>
   );
