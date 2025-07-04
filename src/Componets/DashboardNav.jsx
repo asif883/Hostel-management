@@ -114,8 +114,9 @@ const adminRoutes = [
 ]
 
 const DashboardNav = () => {
-  const {role} = useUserData()
-  console.log(role);
+  const { member } = useUserData()
+  const role = member?.role;
+
   const { logout }= useAuth()
 
   const handleLogout =()=>{

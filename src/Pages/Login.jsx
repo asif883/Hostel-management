@@ -30,7 +30,19 @@ const Login = () => {
           });
           navigate('/dashboard/overview');
     })
+    .catch (error =>{
+        console.error( error)
+        Swal.fire({
+            title: 'Error!',
+            text: `${error.message}`,
+            icon: 'error',
+            confirmButtonText: 'Try again',
+            confirmButtonColor: '#18181B'
+            })
+        })
     }
+
+    
     return (
         <div className="max-w-3xl mx-auto">
             <div className="text-center mt-8">
