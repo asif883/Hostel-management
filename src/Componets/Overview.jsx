@@ -18,8 +18,8 @@ const Overview = () => {
   }, [])
 
   const getColor = (amount) => {
-    if (amount >= 3500) return "#4CAF50"; // Green
-    if (amount <= 2000) return "#FF0000"; // Red
+    if (amount >= 2500) return "#4CAF50"; // Green
+    if (amount <= 1500) return "#FF0000"; // Red
     return "#FFD700"; // Yellow
   };
 
