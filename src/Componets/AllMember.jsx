@@ -50,6 +50,8 @@ const AllMember = () => {
                             </table>
                             
                         </div>
+
+
         </div>
     );
 };
