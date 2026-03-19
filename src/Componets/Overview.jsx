@@ -176,8 +176,8 @@ const Overview = () => {
         >
           {/* <h3 className="text-[11px] font-bold text-slate-400 tracking-widest uppercase mb-5">
             Meal Rate Breakdown
-          </h3> */}
-          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { label: "Daily Cost", value: dailyTotal, color: "#1d4ed8", unit: " tk" },
               { label: "Total Meals", value: totalMeals, color: "#0f766e", unit: "" },
@@ -194,8 +194,8 @@ const Overview = () => {
           </div> */}
 
           {/* Per Member Meal Count */}
-          <div className="mt-0">
-            <p className="text-[14px] font-bold tracking-widest uppercase text-slate-800 mb-3">Meal Count Per Member</p>
+          <div className="mt-6">
+            <p className="text-[14px] font-bold tracking-widest uppercase text-slate-700 mb-3">Meal Count Per Member</p>
             <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
               {MEMBERS.map((name, i) => (
                 <div key={i} className="flex flex-col items-center gap-1 p-3 rounded-xl border border-slate-100 bg-slate-50">
@@ -203,7 +203,7 @@ const Overview = () => {
                     style={{ background: ["#1d4ed8","#0369a1","#0f766e","#7c3aed","#b45309","#be185d"][i] }}>
                     {name.charAt(0)}
                   </span>
-                  <span className="text-[14px] font-semibold text-slate-700">{name}</span>
+                  <span className="text-[11px] font-semibold text-slate-500">{name}</span>
                   <span className="text-base font-black text-slate-800">{memberMeals[i] ?? 0}</span>
                 </div>
               ))}
@@ -217,6 +217,40 @@ const Overview = () => {
               Meal Rate: {dailyTotal} ÷ {totalMeals} = {mealRate} tk/meal &nbsp;|&nbsp; Utility/Person: {utilityTotal} ÷ 6 = {perPersonUtility} tk
             </span>
           </div> */}
+        </div>
+      )}
+
+      {/* ── Total Cost Per Member ── */}
+      {!loading && (
+        <div
+          className="bg-white rounded-2xl border border-slate-100 p-6 mb-8"
+          style={{ boxShadow: "0 4px 24px -4px rgba(15,23,42,0.08)" }}
+        >
+          <p className="text-[14px] font-bold tracking-widest uppercase text-slate-800 mb-3">Total Cost Per Member</p>
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+            {MEMBERS.map((name, i) => {
+              const memberCost = parseFloat(((memberMeals[i] ?? 0) * mealRate + perPersonUtility).toFixed(2));
+              return (
+                <div key={i} className="flex flex-col items-center gap-1 p-3 rounded-xl border border-slate-100 bg-slate-50">
+                  <span
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
+                    style={{ background: ["#1d4ed8","#0369a1","#0f766e","#7c3aed","#b45309","#be185d"][i] }}
+                  >
+                    {name.charAt(0)}
+                  </span>
+                  <span className="text-[14px] font-semibold text-slate-700">{name}</span>
+                  <span className="text-base font-black text-slate-800">{memberCost} tk</span>
+                </div>
+              );
+            })}
+          </div>
+          {/* formula */}
+          <div className="mt-4 flex items-center gap-2 flex-wrap">
+            <span className="text-xs text-slate-400 font-medium">Formula:</span>
+            <span className="text-xs bg-slate-100 text-slate-600 font-mono px-3 py-1 rounded-lg">
+              (Member Meals × {mealRate} tk) + {perPersonUtility} tk utility
+            </span>
+          </div>
         </div>
       )}
 
