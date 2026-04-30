@@ -5,7 +5,7 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import PageTitle from "../SharedItems/PageTitile";
 
 const BASE_URL = "https://hostel-management-server-ten.vercel.app";
-const MEMBERS = ["Asif", "Mamun", "Ebadul", "Moku", "Shobuj", "Milon"];
+const MEMBERS = ["Asif", "Latif", "Ebadul", "Moku", "Shobuj", "Milon"];
 
 const StatCardSkeleton = () => (
   <div className="animate-pulse bg-white rounded-2xl p-5 border border-slate-100"
