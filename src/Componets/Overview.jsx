@@ -2,47 +2,125 @@ import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { 
+  FiCalendar, 
+  FiUsers, 
+  FiDollarSign, 
+  FiPieChart,
+  FiTrendingUp,
+  FiTrendingDown,
+  FiUser,
+  FiGrid,
+  FiBarChart2,
+  FiCoffee,
+  FiCreditCard,
+  FiActivity
+} from "react-icons/fi";
 import PageTitle from "../SharedItems/PageTitile";
 
 const BASE_URL = "https://hostel-management-server-ten.vercel.app";
-const MEMBERS = ["Asif", "Latif", "Ebadul", "Moku", "Shobuj", "Milon"];
+const MEMBERS = ["Asif", "Latif", "Ebadul", "Moklesur", "Shobuj", "Mahmud"];
 
 const StatCardSkeleton = () => (
-  <div className="animate-pulse bg-white rounded-2xl p-5 border border-slate-100"
-    style={{ boxShadow: "0 4px 24px -4px rgba(15,23,42,0.08)" }}>
-    <div className="h-3 bg-slate-200 rounded w-24 mb-3"></div>
-    <div className="h-8 bg-slate-200 rounded w-32"></div>
+  <div className="animate-pulse bg-white rounded-2xl p-6 border border-slate-100">
+    <div className="h-3 bg-slate-200 rounded w-20 mb-3"></div>
+    <div className="h-8 bg-slate-200 rounded w-28"></div>
+    <div className="h-3 bg-slate-200 rounded w-24 mt-3"></div>
   </div>
 );
 
-const StatCard = ({ label, value, sub, accent = false, highlight = false }) => (
-  <div
-    className="rounded-2xl p-5 border flex flex-col justify-between"
-    style={{
-      background: accent
-        ? "linear-gradient(135deg,#1d4ed8 0%,#1e40af 100%)"
-        : highlight
-        ? "linear-gradient(135deg,#0f766e 0%,#0d9488 100%)"
-        : "white",
-      borderColor: accent || highlight ? "transparent" : "#f1f5f9",
-      boxShadow: accent || highlight
-        ? "0 8px 24px -4px rgba(29,78,216,0.3)"
-        : "0 4px 24px -4px rgba(15,23,42,0.08)",
-    }}
-  >
-    <p className={`text-[11px] font-bold tracking-widest uppercase mb-2 ${accent || highlight ? "text-blue-200" : "text-slate-400"}`}>
-      {label}
-    </p>
-    <p className={`text-2xl font-black ${accent || highlight ? "text-white" : "text-slate-800"}`}>
-      {value}
-    </p>
-    {sub && (
-      <p className={`text-xs mt-1 font-medium ${accent || highlight ? "text-blue-200" : "text-slate-400"}`}>
-        {sub}
-      </p>
-    )}
-  </div>
-);
+const StatCard = ({ icon: Icon, label, value, sub, color = "blue" }) => {
+  const colorMap = {
+    blue: {
+      bg: "bg-blue-50",
+      border: "border-blue-200",
+      text: "text-blue-700",
+      subText: "text-blue-500",
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600",
+      hover: "hover:border-blue-300"
+    },
+    amber: {
+      bg: "bg-amber-50",
+      border: "border-amber-200",
+      text: "text-amber-700",
+      subText: "text-amber-500",
+      iconBg: "bg-amber-100",
+      iconColor: "text-amber-600",
+      hover: "hover:border-amber-300"
+    },
+    violet: {
+      bg: "bg-violet-50",
+      border: "border-violet-200",
+      text: "text-violet-700",
+      subText: "text-violet-500",
+      iconBg: "bg-violet-100",
+      iconColor: "text-violet-600",
+      hover: "hover:border-violet-300"
+    },
+    emerald: {
+      bg: "bg-emerald-50",
+      border: "border-emerald-200",
+      text: "text-emerald-700",
+      subText: "text-emerald-500",
+      iconBg: "bg-emerald-100",
+      iconColor: "text-emerald-600",
+      hover: "hover:border-emerald-300"
+    },
+    rose: {
+      bg: "bg-rose-50",
+      border: "border-rose-200",
+      text: "text-rose-700",
+      subText: "text-rose-500",
+      iconBg: "bg-rose-100",
+      iconColor: "text-rose-600",
+      hover: "hover:border-rose-300"
+    },
+    cyan: {
+      bg: "bg-cyan-50",
+      border: "border-cyan-200",
+      text: "text-cyan-700",
+      subText: "text-cyan-500",
+      iconBg: "bg-cyan-100",
+      iconColor: "text-cyan-600",
+      hover: "hover:border-cyan-300"
+    },
+    slate: {
+      bg: "bg-slate-50",
+      border: "border-slate-200",
+      text: "text-slate-700",
+      subText: "text-slate-500",
+      iconBg: "bg-slate-100",
+      iconColor: "text-slate-600",
+      hover: "hover:border-slate-300"
+    }
+  };
+
+  const styles = colorMap[color] || colorMap.blue;
+
+  return (
+    <div className={`rounded-2xl p-6 border ${styles.border} ${styles.bg} ${styles.hover} transition-all duration-300 hover:shadow-lg hover:scale-[1.02]`}>
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <p className={`text-xs font-semibold ${styles.subText} uppercase tracking-wider`}>
+            {label}
+          </p>
+          <p className={`text-2xl font-bold ${styles.text} mt-1`}>
+            {value}
+          </p>
+          {sub && (
+            <p className={`text-xs ${styles.subText} mt-1 font-medium`}>
+              {sub}
+            </p>
+          )}
+        </div>
+        <div className={`p-3 rounded-xl ${styles.iconBg}`}>
+          <Icon className={`w-5 h-5 ${styles.iconColor}`} />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Overview = () => {
   const [dailyTotal, setDailyTotal] = useState(0);
@@ -63,14 +141,12 @@ const Overview = () => {
       setDailyTotal(daily.totalCost ?? 0);
       setUtilityTotal(utility.totalCost ?? 0);
 
-      // sum all meals
       const meals = meal.meals ?? [];
       const total = meals.reduce((sum, day) =>
         sum + (day.meals ?? []).reduce((s, m) => s + m, 0), 0
       );
       setTotalMeals(parseFloat(total.toFixed(1)));
 
-      // per member totals
       const perMember = Array(6).fill(0);
       meals.forEach(day => {
         (day.meals ?? []).forEach((m, i) => {
@@ -86,13 +162,42 @@ const Overview = () => {
   const mealRate = totalMeals > 0 ? parseFloat((dailyTotal / totalMeals).toFixed(2)) : 0;
   const perPersonUtility = parseFloat((utilityTotal / 6).toFixed(2));
 
-  const totalDeposit = depositMoney.reduce((s, m) => s + (parseFloat(m.amount) || 0), 0);
+  const today = new Date();
+  const fullDate = today.toLocaleDateString("en-BD", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
-  // Chart
+  const totalDeposit = depositMoney.reduce((s, m) => s + (parseFloat(m.amount) || 0), 0);
+  const totalCostPerMember = MEMBERS.map((_, i) =>
+    parseFloat(((memberMeals[i] ?? 0) * mealRate + perPersonUtility).toFixed(2))
+  );
+  
+  const balanceRows = MEMBERS.map((name, index) => {
+    const memberCost = totalCostPerMember[index] ?? 0;
+    const depositAmount = depositMoney.reduce((sum, item) => {
+      const itemName = String(item?.name || "").trim().toLowerCase();
+      return itemName.includes(name.toLowerCase())
+        ? sum + (parseFloat(item?.amount) || 0)
+        : sum;
+    }, 0);
+    const balance = parseFloat((depositAmount - memberCost).toFixed(2));
+
+    return { name, depositAmount, memberCost, balance };
+  });
+
+  const getBalanceStatus = (balance) => {
+    if (balance < 500) return { label: "Low", color: "rose", icon: FiTrendingDown };
+    if (balance < 1000) return { label: "Moderate", color: "amber", icon: FiPieChart };
+    return { label: "Healthy", color: "emerald", icon: FiTrendingUp };
+  };
+
+  // Chart data
   const getColor = (amount) => {
-    if (amount >= 2500) return "rgba(16,185,129,0.85)";
-    if (amount <= 1500) return "rgba(239,68,68,0.85)";
-    return "rgba(245,158,11,0.85)";
+    if (amount >= 2500) return "#10b981";
+    if (amount <= 1500) return "#ef4444";
+    return "#f59e0b";
   };
 
   const chartData = {
@@ -101,18 +206,27 @@ const Overview = () => {
       {
         label: "Amount (tk)",
         data: depositMoney.map(item => item?.amount),
-        backgroundColor: depositMoney.map(item => getColor(item.amount)),
+        backgroundColor: depositMoney.map(item => getColor(item.amount) + "CC"),
+        borderColor: depositMoney.map(item => getColor(item.amount)),
+        borderWidth: 2,
         borderRadius: 8,
         borderSkipped: false,
+        barPercentage: 0.7,
       },
     ],
   };
 
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       tooltip: {
+        backgroundColor: "rgba(15, 23, 42, 0.9)",
+        titleColor: "#f1f5f9",
+        bodyColor: "#f1f5f9",
+        padding: 12,
+        cornerRadius: 8,
         callbacks: {
           label: (ctx) => ` ${ctx.raw} tk`,
         },
@@ -121,177 +235,327 @@ const Overview = () => {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { font: { size: 12, weight: "600" }, color: "#64748b" },
+        ticks: { 
+          font: { size: 12, weight: "600" }, 
+          color: "#64748b",
+        },
       },
       y: {
-        grid: { color: "#f1f5f9" },
-        ticks: { font: { size: 11 }, color: "#94a3b8" },
+        grid: { color: "#f1f5f9", drawBorder: false },
+        ticks: { 
+          font: { size: 11 }, 
+          color: "#94a3b8",
+          callback: (value) => value + " tk",
+        },
       },
     },
   };
 
+  // Sorting members by meal count (highest to lowest)
+  const sortedMembers = MEMBERS.map((name, index) => ({
+    name,
+    meals: memberMeals[index] ?? 0,
+    cost: totalCostPerMember[index] ?? 0,
+    index
+  })).sort((a, b) => b.meals - a.meals);
+
+  const getRankColor = (rank) => {
+    const colors = ["text-emerald-600", "text-blue-600", "text-amber-600", "text-violet-600", "text-rose-600", "text-slate-600"];
+    return colors[rank] || "text-slate-600";
+  };
+
+  const getRankBg = (rank) => {
+    const colors = ["bg-emerald-100", "bg-blue-100", "bg-amber-100", "bg-violet-100", "bg-rose-100", "bg-slate-100"];
+    return colors[rank] || "bg-slate-100";
+  };
+
   return (
-    <div className="px-4 md:px-8 pb-16" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;900&display=swap');`}</style>
+    <div className="min-h-screen bg-slate-50/80 px-4 md:px-8 pb-16" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');`}</style>
 
       <PageTitle heading="Overview" />
 
-      {/* ── Stats Grid ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-blue-50 rounded-xl">
+            <FiCalendar className="w-5 h-5 text-blue-600" />
+          </div>
+          <span className="text-sm font-medium text-slate-600">{fullDate}</span>
+        </div>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
         {loading ? (
           Array.from({ length: 4 }).map((_, i) => <StatCardSkeleton key={i} />)
         ) : (
           <>
             <StatCard
-              label="Daily Cost"
+              icon={TbCurrencyTaka}
+              label="Food expenses"
               value={`${dailyTotal} tk`}
-              sub="Total food expenses"
-              accent
+              sub="Total Food expenses"
+              color="blue"
             />
             <StatCard
+              icon={FiBarChart2}
               label="Utility Cost"
               value={`${utilityTotal} tk`}
               sub="Bills & utilities"
+              color="amber"
             />
             <StatCard
+              icon={FiUsers}
               label="Per Person Utility"
               value={`${perPersonUtility} tk`}
               sub="Utility ÷ 6 members"
+              color="violet"
             />
             <StatCard
+              icon={FiPieChart}
               label="Meal Rate"
               value={`${mealRate} tk`}
               sub={`Daily cost ÷ ${totalMeals} meals`}
-              highlight
+              color="emerald"
             />
           </>
         )}
       </div>
 
-      {/* ── Meal Rate Breakdown ── */}
+      {/* Meal & Cost Section - Clean Redesign */}
       {!loading && (
-        <div
-          className="bg-white rounded-2xl border border-slate-100 p-6 mb-8"
-          style={{ boxShadow: "0 4px 24px -4px rgba(15,23,42,0.08)" }}
-        >
-          {/* <h3 className="text-[11px] font-bold text-slate-400 tracking-widest uppercase mb-5">
-            Meal Rate Breakdown
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "Daily Cost", value: dailyTotal, color: "#1d4ed8", unit: " tk" },
-              { label: "Total Meals", value: totalMeals, color: "#0f766e", unit: "" },
-              { label: "Meal Rate", value: mealRate, color: "#b45309", unit: " tk" },
-              { label: "Per Person Utility", value: perPersonUtility, color: "#7c3aed", unit: " tk" },
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col gap-1 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                <p className="text-[10px] font-bold tracking-widest uppercase text-slate-400">{item.label}</p>
-                <p className="text-xl font-black" style={{ color: item.color }}>
-                  {item.value}{item.unit}
-                </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Meal Count - Clean Table Style */}
+          <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <FiCoffee className="w-4 h-4 text-blue-600" />
+                  <h3 className="text-xs font-bold text-slate-600 uppercase tracking-wider">
+                    Meal Count
+                  </h3>
+                </div>
+                <span className="text-xs text-slate-400 font-medium">Total: {totalMeals}</span>
               </div>
-            ))}
-          </div> */}
-
-          {/* Per Member Meal Count */}
-          <div className="mt-6">
-            <p className="text-[14px] font-bold tracking-widest uppercase text-slate-700 mb-3">Meal Count Per Member</p>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-              {MEMBERS.map((name, i) => (
-                <div key={i} className="flex flex-col items-center gap-1 p-3 rounded-xl border border-slate-100 bg-slate-50">
-                  <span className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                    style={{ background: ["#1d4ed8","#0369a1","#0f766e","#7c3aed","#b45309","#be185d"][i] }}>
-                    {name.charAt(0)}
-                  </span>
-                  <span className="text-[11px] font-semibold text-slate-500">{name}</span>
-                  <span className="text-base font-black text-slate-800">{memberMeals[i] ?? 0}</span>
+            </div>
+            <div className="divide-y divide-slate-50">
+              {sortedMembers.map((member, rank) => (
+                <div 
+                  key={member.index} 
+                  className="px-6 py-3 flex items-center justify-between hover:bg-slate-50/50 transition-colors group"
+                >
+                  <div className="flex items-center gap-4">
+                    <span className={`w-6 h-6 rounded-full ${getRankBg(rank)} flex items-center justify-center text-xs font-bold ${getRankColor(rank)}`}>
+                      {rank + 1}
+                    </span>
+                    <span className="font-medium text-slate-700 text-sm">{member.name}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-slate-400 font-medium">meals</span>
+                    <span className="text-sm font-bold text-slate-800 min-w-[30px] text-right tabular-nums">
+                      {member.meals}
+                    </span>
+                    <div className="w-16 h-1 bg-slate-100 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-blue-500 rounded-full transition-all duration-700"
+                        style={{ 
+                          width: `${(member.meals / (sortedMembers[0]?.meals || 1)) * 100}%`,
+                          opacity: member.meals === 0 ? 0.2 : 1
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Formula */}
-          {/* <div className="mt-5 flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-slate-400 font-medium">Formula:</span>
-            <span className="text-xs bg-slate-100 text-slate-600 font-mono px-3 py-1 rounded-lg">
-              Meal Rate: {dailyTotal} ÷ {totalMeals} = {mealRate} tk/meal &nbsp;|&nbsp; Utility/Person: {utilityTotal} ÷ 6 = {perPersonUtility} tk
-            </span>
-          </div> */}
+          {/* Total Cost - Clean Table Style */}
+          <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <FiCreditCard className="w-4 h-4 text-emerald-600" />
+                  <h3 className="text-xs font-bold text-slate-600 uppercase tracking-wider">
+                    Total Cost
+                  </h3>
+                </div>
+                <span className="text-xs text-slate-400 font-medium">Total: {allCost} tk</span>
+              </div>
+            </div>
+            <div className="divide-y divide-slate-50">
+              {sortedMembers.map((member, rank) => {
+                const percentage = allCost > 0 ? (member.cost / allCost) * 100 : 0;
+                const barColors = ["bg-emerald-500", "bg-blue-500", "bg-amber-500", "bg-violet-500", "bg-rose-500", "bg-slate-500"];
+                return (
+                  <div 
+                    key={member.index} 
+                    className="px-6 py-3 flex items-center justify-between hover:bg-slate-50/50 transition-colors group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className={`w-6 h-6 rounded-full ${getRankBg(rank)} flex items-center justify-center text-xs font-bold ${getRankColor(rank)}`}>
+                        {rank + 1}
+                      </span>
+                      <span className="font-medium text-slate-700 text-sm">{member.name}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-slate-400 font-medium">cost</span>
+                      <span className="text-sm font-bold text-slate-800 min-w-[60px] text-right tabular-nums">
+                        {member.cost} tk
+                      </span>
+                      <div className="w-16 h-1 bg-slate-100 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full ${barColors[rank]} rounded-full transition-all duration-700`}
+                          style={{ 
+                            width: `${percentage}%`,
+                            opacity: member.cost === 0 ? 0.2 : 1
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
 
-      {/* ── Total Cost Per Member ── */}
+      {/* Balance Status - Updated with Cost Info */}
       {!loading && (
-        <div
-          className="bg-white rounded-2xl border border-slate-100 p-6 mb-8"
-          style={{ boxShadow: "0 4px 24px -4px rgba(15,23,42,0.08)" }}
-        >
-          <p className="text-[14px] font-bold tracking-widest uppercase text-slate-800 mb-3">Total Cost Per Member</p>
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-            {MEMBERS.map((name, i) => {
-              const memberCost = parseFloat(((memberMeals[i] ?? 0) * mealRate + perPersonUtility).toFixed(2));
+        <div className="bg-white rounded-2xl border border-slate-100 p-6 mb-8 hover:shadow-lg transition-shadow duration-300">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2">
+              <FiActivity className="w-4 h-4 text-violet-600" />
+              <h3 className="text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Balance Status
+              </h3>
+            </div>
+            <div className="flex gap-3 text-xs">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                Healthy
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                Moderate
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                Low
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+            {balanceRows.map((row, index) => {
+              const status = getBalanceStatus(row.balance);
+              const StatusIcon = status.icon;
+
               return (
-                <div key={i} className="flex flex-col items-center gap-1 p-3 rounded-xl border border-slate-100 bg-slate-50">
-                  <span
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                    style={{ background: ["#1d4ed8","#0369a1","#0f766e","#7c3aed","#b45309","#be185d"][i] }}
-                  >
-                    {name.charAt(0)}
-                  </span>
-                  <span className="text-[14px] font-semibold text-slate-700">{name}</span>
-                  <span className="text-base font-black text-slate-800">{memberCost} tk</span>
+                <div 
+                  key={`${row.name}-${index}`} 
+                  className={`p-4 rounded-xl border transition-all duration-300 hover:scale-[1.02] hover:shadow-md ${
+                    status.color === "emerald" ? "border-emerald-200 bg-emerald-50/30" :
+                    status.color === "amber" ? "border-amber-200 bg-amber-50/30" :
+                    "border-rose-200 bg-rose-50/30"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold ${
+                        status.color === "emerald" ? "bg-emerald-200 text-emerald-700" :
+                        status.color === "amber" ? "bg-amber-200 text-amber-700" :
+                        "bg-rose-200 text-rose-700"
+                      }`}>
+                        {row.name[0]}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-800 text-sm">{row.name}</p>
+                        <div className="flex items-center gap-1.5">
+                          <StatusIcon className={`w-3 h-3 ${
+                            status.color === "emerald" ? "text-emerald-600" :
+                            status.color === "amber" ? "text-amber-600" :
+                            "text-rose-600"
+                          }`} />
+                          <span className="text-xs text-slate-400">{status.label}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className={`text-lg font-bold ${
+                        status.color === "emerald" ? "text-emerald-600" :
+                        status.color === "amber" ? "text-amber-600" :
+                        "text-rose-600"
+                      }`}>
+                        {row.balance} tk
+                      </p>
+                      <div className="flex items-center justify-end gap-2 mt-0.5">
+                        <span className="text-[10px] text-slate-400">Cost:</span>
+                        <span className="text-[11px] font-semibold text-slate-600">
+                          {row.memberCost} tk
+                        </span>
+                        <span className="text-[10px] text-slate-300">|</span>
+                        <span className="text-[10px] text-slate-400">Deposit:</span>
+                        <span className="text-[11px] font-semibold text-slate-600">
+                          {row.depositAmount} tk
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               );
             })}
           </div>
-          {/* formula */}
-          <div className="mt-4 flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-slate-400 font-medium">Formula:</span>
-            <span className="text-xs bg-slate-100 text-slate-600 font-mono px-3 py-1 rounded-lg">
-              (Member Meals × {mealRate} tk) + {perPersonUtility} tk utility
-            </span>
-          </div>
         </div>
       )}
 
-      {/* ── Deposit Chart ── */}
-      <div
-        className="bg-white rounded-2xl border border-slate-100 p-6"
-        style={{ boxShadow: "0 4px 24px -4px rgba(15,23,42,0.08)" }}
-      >
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-[11px] font-bold text-slate-400 tracking-widest uppercase">
-              Deposit Money
-            </h3>
-            <p className="text-slate-800 font-black text-xl mt-0.5 flex items-center gap-1">
-              <TbCurrencyTaka size={20} className="text-blue-600" />
-              {totalDeposit} tk
-            </p>
+      {/* Deposit Chart */}
+      <div className="bg-white rounded-2xl border border-slate-100 p-6 hover:shadow-lg transition-shadow duration-300">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-50 rounded-xl">
+              <FiGrid className="w-5 h-5 text-blue-600" />
+            </div>
+            <div>
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                Deposit Money
+              </h3>
+              <p className="text-2xl font-bold text-slate-800 flex items-center gap-1">
+                <TbCurrencyTaka className="text-blue-600" />
+                {totalDeposit} tk
+              </p>
+            </div>
           </div>
-          {/* Legend */}
-          <div className="flex gap-3 text-xs font-semibold">
+          <div className="flex gap-4 text-xs font-medium">
             <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-sm bg-emerald-500 inline-block"></span>
+              <span className="w-3 h-3 rounded bg-emerald-500"></span>
               ≥ 2500
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-sm bg-amber-400 inline-block"></span>
+              <span className="w-3 h-3 rounded bg-amber-500"></span>
               1500–2500
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-sm bg-red-500 inline-block"></span>
+              <span className="w-3 h-3 rounded bg-rose-500"></span>
               ≤ 1500
             </span>
           </div>
         </div>
 
         {loading ? (
-          <div className="animate-pulse h-48 bg-slate-100 rounded-xl"></div>
+          <div className="animate-pulse h-64 bg-slate-100 rounded-xl"></div>
         ) : depositMoney.length === 0 ? (
-          <div className="text-center py-12 text-slate-400">No deposit data yet.</div>
+          <div className="text-center py-16 text-slate-400">
+            <FiBarChart2 className="w-12 h-12 mx-auto mb-3 text-slate-300" />
+            <p className="text-sm font-medium">No deposit data yet</p>
+            <p className="text-xs text-slate-400 mt-1">Deposits will appear here once added</p>
+          </div>
         ) : (
-          <Bar data={chartData} options={chartOptions} />
+          <div className="h-64">
+            <Bar data={chartData} options={chartOptions} />
+          </div>
         )}
       </div>
     </div>

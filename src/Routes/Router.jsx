@@ -18,6 +18,7 @@ const router = createHashRouter([
         path: '/',
         element: <PrivateRoute><Dashboard/></PrivateRoute>,
         children: [
+            { index: true, element: <Overview/> },
             { path: '/dashboard/overview', element: <Overview/> },
             { path: '/dashboard/all-member', element: <AllMember/> },
             { path: '/dashboard/daily-cost', element: <DailyCost/> },
