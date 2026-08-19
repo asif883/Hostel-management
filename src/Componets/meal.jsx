@@ -6,7 +6,7 @@ import PageTitle from "../SharedItems/PageTitile";
 
 const API_URL = "https://hostel-management-server-ten.vercel.app";
 
-const MEMBERS = ["Asif", "Latif", "Ebadul", "Moklesur", "Shobuj", "Mahmud"];
+const MEMBERS = ["Asif", "Latif", "Ebadul", "Moklesur", "Shobuj", "Mahmudur"];
 
 const MEMBER_COLORS = [
   "bg-blue-100 text-blue-700",

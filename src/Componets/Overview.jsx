@@ -19,7 +19,7 @@ import {
 import PageTitle from "../SharedItems/PageTitile";
 
 const BASE_URL = "https://hostel-management-server-ten.vercel.app";
-const MEMBERS = ["Asif", "Latif", "Ebadul", "Moklesur", "Shobuj", "Mahmud"];
+const MEMBERS = ["Asif", "Latif", "Ebadul", "Moklesur", "Shobuj", "Mahmudur"];
 
 const StatCardSkeleton = () => (
   <div className="animate-pulse bg-white rounded-2xl p-6 border border-slate-100">
