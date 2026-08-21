@@ -7,6 +7,7 @@ const MEAL_MEMBERS = ["Asif", "Latif", "Ebadul", "Moklesur", "Shobuj", "Mahmudur
 const HOME_RENT = 2500;
 
 const formatMoney = (amount) => `${amount.toFixed(2)} tk`;
+const normalizeName = (name) => String(name ?? "").trim().toLowerCase();
 
 const MonthlyCost = () => {
 	const members = useMembersData();
@@ -26,7 +27,7 @@ const MonthlyCost = () => {
 		])
 			.then(([deposits, dailyCosts, utilities, meals]) => {
 				setData({
-					deposits: Array.isArray(deposits) ? deposits : [],
+					deposits: Array.isArray(deposits) ? deposits : deposits?.value ?? [],
 					dailyCosts: dailyCosts?.dailyCost ?? [],
 					utilities: utilities?.utilityCost ?? [],
 					meals: meals?.meals ?? [],
@@ -37,8 +38,9 @@ const MonthlyCost = () => {
 	}, []);
 
 	const isCurrentMonth = (date) => {
-		const parsedDate = new Date(`${date}T00:00:00`);
-		return parsedDate.getMonth() === month && parsedDate.getFullYear() === year;
+		const dateValue = String(date ?? "").slice(0, 10);
+		const [dateYear, dateMonth] = dateValue.split("-").map(Number);
+		return dateYear === year && dateMonth === month + 1;
 	};
 
 	const monthlyDeposits = data.deposits.filter((deposit) => isCurrentMonth(deposit?.date));
@@ -52,13 +54,16 @@ const MonthlyCost = () => {
 		0
 	);
 	const mealRate = totalMeals > 0 ? dailyCostTotal / totalMeals : 0;
-	const utilityPerMember = utilityTotal / 6;
-	const memberNames = members.length > 0 ? members.map((member) => member.name) : MEAL_MEMBERS;
+	const utilityPerMember = utilityTotal / MEAL_MEMBERS.length;
+	const memberRecords = Array.isArray(members) ? members : members?.value ?? [];
+	const memberNames = MEAL_MEMBERS.map((shortName) => (
+		memberRecords.find((member) => normalizeName(member?.name).includes(normalizeName(shortName)))?.name?.trim() || shortName
+	));
 
 	const rows = memberNames.map((name, index) => {
 		const mealCount = monthlyMeals.reduce((sum, day) => sum + (parseFloat(day?.meals?.[index]) || 0), 0);
 		const deposit = monthlyDeposits.reduce((sum, item) => (
-			String(item?.name || "").trim().toLowerCase() === String(name).trim().toLowerCase()
+			(normalizeName(item?.name).includes(normalizeName(name)) || normalizeName(name).includes(normalizeName(item?.name)))
 				? sum + (parseFloat(item?.amount) || 0)
 				: sum
 		), 0);
@@ -74,23 +79,27 @@ const MonthlyCost = () => {
 
 			{/* Summary Cards */}
 			<div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-7">
-				<div className="bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-200 rounded-2xl p-4 md:p-5 shadow-sm">
-					<p className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-blue-600">Meal Rate</p>
-					<p className="mt-1 md:mt-2 text-xl md:text-2xl font-black text-blue-700">{formatMoney(mealRate)}</p>
-					<p className="mt-0.5 text-[10px] md:text-xs text-blue-400 font-medium">Per meal</p>
-				</div>
-				<div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200 rounded-2xl p-4 md:p-5 shadow-sm">
-					<p className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-emerald-600">Total Meal</p>
-					<p className="mt-1 md:mt-2 text-xl md:text-2xl font-black text-emerald-700">{totalMeals.toFixed(1)}</p>
-					<p className="mt-0.5 text-[10px] md:text-xs text-emerald-400 font-medium">This month</p>
-				</div>
 				<div className="bg-gradient-to-br from-amber-50 to-amber-100/50 border border-amber-200 rounded-2xl p-4 md:p-5 shadow-sm">
 					<p className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-amber-600">Food Cost</p>
 					<p className="mt-1 md:mt-2 text-xl md:text-2xl font-black text-amber-700">{formatMoney(dailyCostTotal)}</p>
 					<p className="mt-0.5 text-[10px] md:text-xs text-amber-400 font-medium">This month</p>
 				</div>
+
+				<div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200 rounded-2xl p-4 md:p-5 shadow-sm">
+					<p className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-emerald-600">Total Meal</p>
+					<p className="mt-1 md:mt-2 text-xl md:text-2xl font-black text-emerald-700">{totalMeals.toFixed(1)}</p>
+					<p className="mt-0.5 text-[10px] md:text-xs text-emerald-400 font-medium">This month</p>
+				</div>
+
+				<div className="bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-200 rounded-2xl p-4 md:p-5 shadow-sm">
+					<p className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-blue-600">Meal Rate</p>
+					<p className="mt-1 md:mt-2 text-xl md:text-2xl font-black text-blue-700">{formatMoney(mealRate)}</p>
+					<p className="mt-0.5 text-[10px] md:text-xs text-blue-400 font-medium">Per meal</p>
+				</div>
+			
+				
 				<div className="bg-gradient-to-br from-violet-50 to-violet-100/50 border border-violet-200 rounded-2xl p-4 md:p-5 shadow-sm">
-					<p className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-violet-600">Utility Cost</p>
+					<p className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-violet-600">Total Utility Cost</p>
 					<p className="mt-1 md:mt-2 text-xl md:text-2xl font-black text-violet-700">{formatMoney(utilityTotal)}</p>
 					<p className="mt-0.5 text-[10px] md:text-xs text-violet-400 font-medium">This month</p>
 				</div>
