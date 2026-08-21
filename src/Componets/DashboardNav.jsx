@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LuLayoutDashboard, LuUsersRound } from "react-icons/lu";
+import { LuCalendarRange, LuLayoutDashboard, LuUsersRound } from "react-icons/lu";
 import { FaBasketShopping } from "react-icons/fa6";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
@@ -11,12 +11,14 @@ import useUserData from "../Hooks/useUserData";
 
 const normalRoutes = [
   { id: 1, label: "Overview",      icon: <LuLayoutDashboard size={17}/>, link: "/dashboard/overview" },
-  { id: 2, label: "All Member",    icon: <LuUsersRound size={17}/>,      link: "/dashboard/all-member" },
+  { id: 2, label: "Monthly Cost",  icon: <LuCalendarRange size={17}/>,     link: "/dashboard/monthly-cost" },
+  { id: 3, label: "All Member",    icon: <LuUsersRound size={17}/>,        link: "/dashboard/all-member" },
 ];
 
 const managerRoutes = [
   { id: 1, label: "Overview",      icon: <LuLayoutDashboard size={17}/>, link: "/dashboard/overview" },
-  { id: 2, label: "All Member",    icon: <LuUsersRound size={17}/>,      link: "/dashboard/all-member" },
+  { id: 2, label: "Monthly Cost",  icon: <LuCalendarRange size={17}/>,   link: "/dashboard/monthly-cost" },
+  { id: 3, label: "All Member",    icon: <LuUsersRound size={17}/>,      link: "/dashboard/all-member" },
   { id: 3, label: "Daily Cost",    icon: <FaBasketShopping size={17}/>,  link: "/dashboard/daily-cost" },
   { id: 4, label: "Utility Cost",  icon: <BsMotherboard size={17}/>,     link: "/dashboard/utility" },
   { id: 5, label: "Daily Meal",    icon: <IoFastFoodOutline size={17}/>, link: "/dashboard/daily-meal" },

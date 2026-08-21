@@ -10,6 +10,7 @@ import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import MealTracker from "../Componets/meal";
+import MonthlyCost from "../Componets/MonthlyCost";
 
 import { createHashRouter } from "react-router-dom"; 
 import Update from "../Componets/Update";
@@ -20,6 +21,7 @@ const router = createHashRouter([
         children: [
             { index: true, element: <Overview/> },
             { path: '/dashboard/overview', element: <Overview/> },
+            { path: '/dashboard/monthly-cost', element: <MonthlyCost/> },
             { path: '/dashboard/all-member', element: <AllMember/> },
             { path: '/dashboard/daily-cost', element: <DailyCost/> },
             { path: '/dashboard/utility', element: <Utility/> },
